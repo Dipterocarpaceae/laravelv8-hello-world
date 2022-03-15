@@ -1,17 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIPTERO Blog | About</title>
-</head>
+@section('container')    
+<h1>Halaman About</h1>
+<h2>{{ $name }}</h2>
+<h3>{{ $email }}</h3>
+<img src="img/{{ $image }}" alt="{{ $name }}" width="200">
 
-<body>
-    <h1>Halaman About</h1>
-    <h2><?= $name; ?></h2>
-    <h3><?= $email; ?></h3>
-</body>
-
-</html>
+@endsection
