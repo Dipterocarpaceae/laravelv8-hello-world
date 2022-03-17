@@ -39,10 +39,12 @@ Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 //halaman single category
 Route::get('categories/{category:slug}', function (Category $category) {
-    return view('category', [
-        'title' => $category->name,
-        'posts' => $category->posts,
-        'category' => $category->name
+    return view('posts', [
+        'title' => 'Post by Category :' . $category->name,
+        'posts' => $category->posts->load([
+            'author',
+            'category'
+        ])
     ]);
 });
 
@@ -56,8 +58,11 @@ Route::get('/categories', function () {
 
 // halaman single user
 Route::get('/authors/{author:username}', function (User $author) {
-    return view('users', [
-        'title' => 'Post Users',
-        'posts' => $author->posts
+    return view('posts', [
+        'title' => 'Post by Author : ' . $author->name,
+        'posts' => $author->posts->load([
+            'category',
+            'author'
+        ]),
     ]);
 });
