@@ -37,7 +37,7 @@ Route::get('/posts',  [PostController::class, 'index']);
 //halaman single post
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
-//halaman single post
+//halaman single category
 Route::get('categories/{category:slug}', function (Category $category) {
     return view('category', [
         'title' => $category->name,
@@ -46,6 +46,7 @@ Route::get('categories/{category:slug}', function (Category $category) {
     ]);
 });
 
+//halaman categories
 Route::get('/categories', function () {
     return view('categories', [
         'title' => 'Post Categories',
@@ -53,10 +54,10 @@ Route::get('/categories', function () {
     ]);
 });
 
-Route::get('/users/{user:name}', function (User $user) {
+// halaman single user
+Route::get('/authors/{author:username}', function (User $author) {
     return view('users', [
         'title' => 'Post Users',
-        'name' => $user->name,
-        'posts' => $user->posts
+        'posts' => $author->posts
     ]);
 });
