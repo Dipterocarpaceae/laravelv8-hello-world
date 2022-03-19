@@ -40,6 +40,7 @@ Route::get('/posts',  [PostController::class, 'index']);
 Route::get('posts/{post:slug}', [PostController::class, 'show']);
 
 //halaman single category
+// TIDAK DIGUNAKAN LAGI
 Route::get('categories/{category:slug}', function (Category $category) {
     return view('posts', [
         'title' => 'Post by Category :' . $category->name,
@@ -61,9 +62,11 @@ Route::get('/categories', function () {
 });
 
 // halaman single user
+// TIDAK DIGUNAKAN LAGI
 Route::get('/authors/{author:username}', function (User $author) {
     return view('posts', [
         'title' => 'Post by Author : ' . $author->name,
+        'active' => 'authors',
         'posts' => $author->posts->load([
             'category',
             'author'
