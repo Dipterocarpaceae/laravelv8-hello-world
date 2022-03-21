@@ -102,8 +102,11 @@ class DashboardPostController extends Controller
         $rules = [
             'title' => 'required|max:255',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024', //Kasi file untuk kilobytes di depan max file
             'body' => 'required'
         ];
+
+
 
         //TRIKI MASALAH SLUG
         if ($request->slug != $post->slug) {
@@ -111,6 +114,17 @@ class DashboardPostController extends Controller
         }
 
         $validatedData = $request->validate($rules);
+
+        //Jika user upload image
+        if ($request->file('image')) {
+            // Jika gambar lama ada, hapus
+            if ($request->oldImage) {
+                // Storage::delete($request->oldImage);
+                unlink(storage_path('app/public/' . $request->oldImage));
+            }
+
+            $validatedData['image'] = $request->file('image')->store('post-images');
+        }
 
         $validatedData['user_id'] = auth()->user()->id;
         $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
@@ -129,8 +143,12 @@ class DashboardPostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Post::destroy($post->id);
+        if ($post->image) {
+            // Storage::delete($post->image);
+            unlink(storage_path('app/public/' . $post->image));
+        }
 
+        Post::destroy($post->id);
         return redirect('/dashboard/posts')->with('success', 'Post has been deleted');
     }
 
